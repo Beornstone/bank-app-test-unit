@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Trust Palette - Warm & Accessible */
+    --background: 40 33% 96%;
+    --foreground: 220 20% 15%;
+
+    --card: 40 30% 98%;
+    --card-foreground: 220 20% 15%;
+
+    --popover: 40 30% 98%;
+    --popover-foreground: 220 20% 15%;
+
+    /* Emerald Green - Primary Action */
+    --primary: 155 55% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Soft Navy - Trust & Headers */
+    --secondary: 220 35% 25%;
+    --secondary-foreground: 40 30% 96%;
+
+    /* Muted Cream */
+    --muted: 40 25% 92%;
+    --muted-foreground: 220 12% 45%;
+
+    /* Accent - Light Navy Tint */
+    --accent: 220 30% 92%;
+    --accent-foreground: 220 35% 25%;
+
+    /* Error - Warm Red (only for critical) */
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 155 55% 38%;
+
+    --radius: 1rem;
+
+    /* Custom tokens */
+    --navy: 220 35% 25%;
+    --navy-light: 220 30% 35%;
+    --cream: 40 33% 96%;
+    --cream-dark: 40 25% 90%;
+    --emerald: 155 55% 38%;
+    --emerald-light: 155 45% 48%;
+    --emerald-glow: 155 55% 38%;
+    --success: 155 60% 42%;
+    --phone-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.15);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .phone-frame {
+    box-shadow: var(--phone-shadow);
+  }
+
+  .btn-press {
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .btn-press:active {
+    transform: scale(0.97);
+  }
+
+  .fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .slide-right {
+    animation: slideRight 0.35s ease-out;
+  }
+
+  .scale-in {
+    animation: scaleIn 0.5s ease-out;
+  }
+
+  .bounce-check {
+    animation: bounceCheck 0.6s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounceCheck {
+  0% { opacity: 0; transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1); }
+}
