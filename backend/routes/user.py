@@ -12,6 +12,8 @@ class CreateUserRequest(BaseModel):
     name: str = None
     email: str
     password: str = None
+    overseer_name: str = None
+    overseer_number: str = None
 
 
 class LoginRequest(BaseModel):
@@ -65,6 +67,8 @@ async def create_user(request: Request, body: CreateUserRequest):
         request.session["cardholder_id"] = cardholder["cardholder_id"]
         request.session["user_name"] = body.name
         request.session["user_email"] = body.email
+        request.session["overseer_name"] = body.overseer_name
+        request.session["overseer_number"] = body.overseer_number
         
         # Store hashed password if provided
         if body.password:
@@ -75,7 +79,9 @@ async def create_user(request: Request, body: CreateUserRequest):
             "stripe_customer_id": customer_id,
             "cardholder_id": cardholder["cardholder_id"],
             "name": body.name,
-            "email": body.email
+            "email": body.email,
+            "overseer_name": body.overseer_name,
+            "overseer_number": body.overseer_number
         })
     except Exception as e:
         print(f"DEBUG: Error creating user: {str(e)}")

@@ -8,6 +8,8 @@ const AuthScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [overseerName, setOverseerName] = useState("");
+  const [overseerNumber, setOverseerNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,7 +20,7 @@ const AuthScreen = () => {
 
     try {
       if (isSignup) {
-        await apiClient.auth.signup(name, email, password);
+        await apiClient.auth.signup(name, email, password, overseerName, overseerNumber);
       } else {
         await apiClient.auth.login(email, password);
       }
@@ -49,19 +51,49 @@ const AuthScreen = () => {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {isSignup && (
-            <div>
-              <label className="text-sm font-semibold text-foreground block mb-1.5">
-                Full Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Alma Smith"
-                required
-                className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
-              />
-            </div>
+            <>
+              <div>
+                <label className="text-sm font-semibold text-foreground block mb-1.5">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Alma Smith"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-foreground block mb-1.5">
+                  Overseer Name
+                </label>
+                <input
+                  type="text"
+                  value={overseerName}
+                  onChange={(e) => setOverseerName(e.target.value)}
+                  placeholder="John Doe"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-foreground block mb-1.5">
+                  Overseer Number
+                </label>
+                <input
+                  type="tel"
+                  value={overseerNumber}
+                  onChange={(e) => setOverseerNumber(e.target.value)}
+                  placeholder="+353 1 234 5678"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
+                />
+              </div>
+            </>
           )}
 
           <div>

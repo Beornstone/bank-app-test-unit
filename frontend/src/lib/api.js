@@ -25,10 +25,16 @@ export const apiClient = {
 
   // Auth endpoints
   auth: {
-    signup: (name, email, password) =>
+    signup: (name, email, password, overseerName, overseerNumber) =>
       apiClient.request("/api/user/create", {
         method: "POST",
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ 
+          name, 
+          email, 
+          password,
+          overseer_name: overseerName,
+          overseer_number: overseerNumber
+        }),
       }),
     login: (email, password) =>
       apiClient.request("/api/user/login", {
