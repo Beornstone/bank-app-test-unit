@@ -112,9 +112,9 @@ const LoginScreen = () => {
         </button>
       </div>
 
-      <p className="text-sm text-muted-foreground mt-4">
+      {/* <p className="text-sm text-muted-foreground mt-4">
         Hint: PIN is <strong>1234</strong>
-      </p>
+      </p> */}
     </div>
   );
 };

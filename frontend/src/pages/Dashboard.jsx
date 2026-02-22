@@ -14,15 +14,14 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { speak } = useVoice();
 
-const handleAccountClick = (account) => {
-  speak(`account${account.id}`);
-  navigate(`/account/${account.id}`);
-};
+  const handleAccountClick = (account) => {
+    speak(`account${account.id}`);
+    navigate(`/account/${account.id}`);
+  };
 
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto px-6 pb-4">
-        {/* Header - match Figma: Welcome back, Alma. */}
         <div className="pt-6 pb-2 fade-in">
           <p className="text-sm text-muted-foreground">Welcome back,</p>
           <h1 className="text-balance text-foreground">Alma.</h1>
@@ -32,17 +31,15 @@ const handleAccountClick = (account) => {
           Click an account to make a transaction and view details.
         </p>
 
-        {/* Account Cards - white, rounded, subtle shadow */}
         <div className="space-y-4 slide-up">
           {accounts.map((account) => (
             <button
               key={account.id}
               onClick={() => handleAccountClick(account)}
-              className="btn-press w-full text-left bg-card rounded-[20px] p-6 card-shadow border-0 hover:shadow-[0_4px_16px_rgba(79,55,47,0.12)] transition-shadow"
-              aria-label={`${account.name}, balance €${account.balance.toFixed(2)}`}
+              className="btn-press w-full text-left bg-card rounded-[20px] p-6 card-shadow border-2 border-foreground/40 hover:shadow-[0_8px_32px_rgba(79,55,47,0.18)] transition-all duration-200"              aria-label={`${account.name}, balance €${account.balance.toFixed(2)}`}
             >
               <div className="flex items-center gap-2 mb-1">
-                <ArrowUpLeft size={18} className="text-foreground shrink-0" />
+                <ArrowUpLeft size={25} className="text-foreground shrink-0" />
                 <span className="text-heading-sm text-foreground">{account.name}</span>
               </div>
               <p className="text-sm text-muted-foreground mb-4">{account.type}</p>

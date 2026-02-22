@@ -136,7 +136,10 @@ const Transactions = () => {
 
         {/* Make Payment Button */}
         <button
-          onClick={() => navigate("/send")}
+          onClick={() => {
+            speak("sendmoney");
+            navigate("/send");
+          }}
           className="btn-press w-full mt-6 mb-4 py-4 rounded-2xl bg-primary text-primary-foreground text-body-lg font-semibold min-h-[56px]"
           aria-label="Make Payment"
         >

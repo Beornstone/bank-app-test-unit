@@ -54,7 +54,7 @@ const AuthScreen = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="margaret@example.com"
+              placeholder="email@example.com"
               className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
             />
           </div>

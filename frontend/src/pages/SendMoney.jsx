@@ -32,6 +32,10 @@ const SendMoney = () => {
 
   const recipientName = selectedContact?.name || newAccount.name;
 
+  const handleContinue = () => {
+    speak('continue');
+    }
+
   const handleNewAccountContinue = () => {
     if (newAccount.name && newAccount.sortCode && newAccount.accountNumber) {
       setSelectedContact(null);
@@ -163,7 +167,10 @@ const SendMoney = () => {
                     />
                   </div>
                   <button
-                    onClick={handleNewAccountContinue}
+                    onClick={() => {
+                      handleContinue();
+                      handleNewAccountContinue();
+                    }}
                     disabled={!newAccount.name || !newAccount.sortCode || !newAccount.accountNumber}
                     className="btn-press w-full py-4 rounded-2xl bg-primary text-primary-foreground text-body-lg font-semibold disabled:opacity-40 transition-opacity min-h-[56px]"
                   >
@@ -214,7 +221,12 @@ const SendMoney = () => {
             </div>
 
             <button
-              onClick={() => amount && parseFloat(amount) > 0 && setStep(3)}
+              onClick={() => {
+                handleContinue();
+                if (amount && parseFloat(amount) > 0) {
+                  setStep(3);
+                }
+              }}
               disabled={!amount || parseFloat(amount) <= 0}
               className="btn-press w-full mt-6 py-4 rounded-2xl bg-primary text-primary-foreground text-body-lg font-semibold disabled:opacity-40 transition-opacity min-h-[56px]"
               aria-label="Continue to review"
@@ -252,7 +264,10 @@ const SendMoney = () => {
             </div>
 
             <button
-              onClick={() => setStep(4)}
+              onClick={() => {
+                speak('moneysent');
+                setStep(4);
+              }}
               className="btn-press w-full py-4 rounded-2xl bg-primary text-primary-foreground text-body-lg font-semibold min-h-[56px]"
               aria-label="Confirm and send money"
             >
@@ -263,6 +278,7 @@ const SendMoney = () => {
 
         {/* Step 4: Success */}
         {step === 4 && (
+          //handleContinue(),
           <div className="fade-in flex flex-col items-center justify-center pt-8">
             <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center mb-6 bounce-check">
               <Check size={40} className="text-primary-foreground" strokeWidth={3} />
@@ -278,7 +294,10 @@ const SendMoney = () => {
             </p>
 
             <button
-              onClick={() => navigate("/dashboard")}
+              onClick={() => {
+                speak("dashboard");
+                navigate("/dashboard");
+              }}
               className="btn-press w-full py-4 rounded-2xl bg-secondary text-secondary-foreground text-body-lg font-semibold min-h-[56px]"
               aria-label="Go back to home"
             >
