@@ -10,6 +10,7 @@ const AuthScreen = () => {
   const [name, setName] = useState("");
   const [overseerName, setOverseerName] = useState("");
   const [overseerNumber, setOverseerNumber] = useState("");
+  const [overseerPassword, setOverseerPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -20,7 +21,7 @@ const AuthScreen = () => {
 
     try {
       if (isSignup) {
-        await apiClient.auth.signup(name, email, password, overseerName, overseerNumber);
+        await apiClient.auth.signup(name, email, password, overseerName, overseerNumber, overseerPassword);
       } else {
         await apiClient.auth.login(email, password);
       }
@@ -93,6 +94,20 @@ const AuthScreen = () => {
                   className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
                 />
               </div>
+
+              <div>
+                <label className="text-sm font-semibold text-foreground block mb-1.5">
+                  Overseer Password
+                </label>
+                <input
+                  type="password"
+                  value={overseerPassword}
+                  onChange={(e) => setOverseerPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground text-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[48px]"
+                />
+              </div>
             </>
           )}
 
@@ -139,15 +154,26 @@ const AuthScreen = () => {
       </div>
 
       {/* Toggle */}
-      <button
-        onClick={() => setIsSignup(!isSignup)}
-        className="text-body text-muted-foreground mt-6 mb-4"
-      >
-        {isSignup ? "Already have an account? " : "Don't have an account? "}
-        <span className="font-semibold text-foreground underline">
-          {isSignup ? "Log In" : "Sign Up"}
-        </span>
-      </button>
+      <div className="space-y-3 w-full max-w-sm">
+        <button
+          onClick={() => setIsSignup(!isSignup)}
+          className="text-body text-muted-foreground"
+        >
+          {isSignup ? "Already have an account? " : "Don't have an account? "}
+          <span className="font-semibold text-foreground underline">
+            {isSignup ? "Log In" : "Sign Up"}
+          </span>
+        </button>
+
+        <div className="pt-2 border-t border-border">
+          <button
+            onClick={() => navigate("/overseer")}
+            className="w-full py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:opacity-90 transition"
+          >
+            Overseer Sign In
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

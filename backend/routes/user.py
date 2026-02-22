@@ -14,6 +14,7 @@ class CreateUserRequest(BaseModel):
     password: str = None
     overseer_name: str = None
     overseer_number: str = None
+    overseer_password: str = None
 
 
 class LoginRequest(BaseModel):
@@ -73,6 +74,10 @@ async def create_user(request: Request, body: CreateUserRequest):
         # Store hashed password if provided
         if body.password:
             request.session["password_hash"] = hash_password(body.password)
+        
+        # Store overseer password hash if provided
+        if body.overseer_password:
+            request.session["overseer_password_hash"] = hash_password(body.overseer_password)
         
         return JSONResponse(content={
             "success": True,
@@ -150,3 +155,68 @@ async def logout(request: Request):
     """
     request.session.clear()
     return {"success": True, "message": "Session cleared"}
+
+
+# --- Overseer Routes ---
+
+class OverseerLoginRequest(BaseModel):
+    number: str
+    password: str
+
+
+@router.post("/api/overseer/login")
+async def overseer_login(request: Request, body: OverseerLoginRequest):
+    """
+    Authenticates overseer by phone number and password.
+    Uses a separate password hash for overseer authentication.
+    """
+    try:
+        # In a real app, this would query a database for overseer credentials
+        # For now, check if there's a user in session with matching overseer info
+        stored_overseer_number = request.session.get("overseer_number")
+        stored_overseer_password_hash = request.session.get("overseer_password_hash")
+        
+        if not stored_overseer_number or not stored_overseer_password_hash:
+            raise HTTPException(status_code=401, detail="No overseer account found in system")
+        
+        if stored_overseer_number != body.number:
+            raise HTTPException(status_code=401, detail="Invalid number or password")
+        
+        # Verify overseer password
+        if not verify_password(body.password, stored_overseer_password_hash):
+            raise HTTPException(status_code=401, detail="Invalid number or password")
+        
+        # Set overseer session
+        request.session["is_overseer"] = True
+        request.session["overseer_logged_in"] = True
+        
+        return JSONResponse(content={
+            "success": True,
+            "number": body.number,
+            "user_name": request.session.get("user_name"),
+            "user_email": request.session.get("user_email"),
+        })
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"DEBUG: Error logging in overseer: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error logging in: {str(e)}")
+
+
+@router.get("/api/overseer/users")
+async def get_overseer_users(request: Request):
+    """
+    Returns users associated with this overseer.
+    """
+    if not request.session.get("is_overseer"):
+        raise HTTPException(status_code=401, detail="Not authenticated as overseer")
+    
+    return JSONResponse(content={
+        "success": True,
+        "users": [{
+            "name": request.session.get("user_name"),
+            "email": request.session.get("user_email"),
+            "cardholder_id": request.session.get("cardholder_id"),
+            "stripe_customer_id": request.session.get("stripe_customer_id"),
+        }]
+    })

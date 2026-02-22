@@ -25,7 +25,7 @@ export const apiClient = {
 
   // Auth endpoints
   auth: {
-    signup: (name, email, password, overseerName, overseerNumber) =>
+    signup: (name, email, password, overseerName, overseerNumber, overseerPassword) =>
       apiClient.request("/api/user/create", {
         method: "POST",
         body: JSON.stringify({ 
@@ -33,7 +33,8 @@ export const apiClient = {
           email, 
           password,
           overseer_name: overseerName,
-          overseer_number: overseerNumber
+          overseer_number: overseerNumber,
+          overseer_password: overseerPassword
         }),
       }),
     login: (email, password) =>
@@ -74,6 +75,41 @@ export const apiClient = {
       }),
   },
 
+  // Issuing/Cards endpoints
+  cards: {
+    createVirtualCard: (weeklyLimitEuros = 100, expirationMonths = 12, billingAddress = "", billingCity = "", billingPostal = "", blockedCategories = []) =>
+      apiClient.request("/api/issuing/card/create", { 
+        method: "POST",
+        body: JSON.stringify({ 
+          weekly_limit_euros: weeklyLimitEuros,
+          expiration_months: expirationMonths,
+          billing_address: billingAddress,
+          billing_city: billingCity,
+          billing_postal: billingPostal,
+          blocked_categories: blockedCategories
+        })
+      }),
+    getCard: () =>
+      apiClient.request("/api/issuing/card"),
+    freezeCard: (cardId) =>
+      apiClient.request("/api/issuing/card/freeze", {
+        method: "POST",
+        body: JSON.stringify({ card_id: cardId }),
+      }),
+    unfreezeCard: (cardId) =>
+      apiClient.request("/api/issuing/card/unfreeze", {
+        method: "POST",
+        body: JSON.stringify({ card_id: cardId }),
+      }),
+    updateSpendingLimit: (cardId, weeklyLimitEuros) =>
+      apiClient.request("/api/issuing/card/limit", {
+        method: "POST",
+        body: JSON.stringify({ card_id: cardId, weekly_limit_euros: weeklyLimitEuros }),
+      }),
+    getCardTransactions: () =>
+      apiClient.request("/api/issuing/card/transactions"),
+  },
+
   // TrueLayer endpoints
   truelayer: {
     getAuthUrl: () =>
@@ -84,5 +120,16 @@ export const apiClient = {
       apiClient.request(`/api/truelayer/accounts/${accountId}/transactions`),
     getAccountBalance: (accountId) =>
       apiClient.request(`/api/truelayer/accounts/${accountId}/balance`),
+  },
+
+  // Overseer endpoints
+  overseer: {
+    login: (number, password) =>
+      apiClient.request("/api/overseer/login", {
+        method: "POST",
+        body: JSON.stringify({ number, password }),
+      }),
+    getUsers: () =>
+      apiClient.request("/api/overseer/users"),
   },
 };
