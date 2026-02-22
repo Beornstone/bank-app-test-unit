@@ -7,12 +7,12 @@ from routes.transactions import router as transactions_router
 import os
 from dotenv import load_dotenv
 
-from backend.routes.user import router as user_router
+from routes.user import router as user_router
 # from backend.routes.chat import router as chat_router         # add when ready
 # from backend.routes.speak import router as speak_router       # add when ready
 # from backend.routes.transactions import router as transactions_router
 # from backend.routes.payments import router as payments_router
-from backend.routes import truelayer
+from routes import truelayer
 from routes.user import router as user_router
 from routes.webhooks import router as webhooks_router
 from routes.carer import router as carer_router
