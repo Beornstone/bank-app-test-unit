@@ -15,9 +15,12 @@ const API_KEY = process.env.ELEVENLABS_API_KEY;
 const VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel
 const OUTPUT_DIR = path.resolve(__dirname, "..", "public", "audio");
 
-// For now only Account 1; expand later
+// Premade messages for app; generated on each build
 const PHRASES = {
   account1: "Account 1",
+  cards: "Cards",
+  physical_cards: "Physical cards",
+  virtual_cards: "Virtual cards",
 };
 
 async function streamToBuffer(stream) {
@@ -51,7 +54,7 @@ async function generateAudio(key, text) {
       voice_settings: { stability: 0.5, similarity_boost: 0.75 },
     });
 
-    const buffer = await streamToBuffer(response); 
+    const buffer = await streamToBuffer(response.data);
     fs.writeFileSync(filePath, buffer);
     console.log(`Wrote ${key}.mp3`);
   } catch (err) {
